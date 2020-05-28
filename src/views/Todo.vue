@@ -10,7 +10,8 @@
     >
       edit title
     </button>
-    <input type="text" v-model="title" @input="updateTodoTitle"/>
+    <input type="text" :v-modal="todoTitle" @input="updateTitle"/>
+    <button @click="cons">hahahahahaha</button>
     <hr>
     <ul>
       <TaskItem />
@@ -20,13 +21,26 @@
 
 <script>
 import TaskItem from "../components/TaskItem"
+import {mapMutations} from "vuex"
 
 export default {
   name: "Todo",
 
   data() {
     return {
-      todoTitleEdit: false,
+      todoTitleEdit: false
+    }
+  },
+
+  computed: {
+
+    todoTitle: {
+      get () {
+        return this.$store.getters.getTargetTodo(this.todo.id).title
+      },
+      set (value) {
+          this.$store.commit("updateTitle", value)
+      }
     }
   },
 
@@ -37,21 +51,16 @@ export default {
   },
 
   methods: {
+      ...mapMutations(["updateTitle"]),
+
       todoTitleOnEdit() {
         this.todoTitleEdit = true
       },
-  },
 
-  computed: {
-      title: {
-        get() {
-          return this.$store.state.todos[0].title
-        },
-        set(value) {
-          this.$store.commit("updateTodoTitle", this.todo.id ,value)
-        }
+      cons() {
+        console.log(this.todo.title);
       }
-  }
+  },
 
 }
 
