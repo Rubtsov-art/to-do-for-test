@@ -10,8 +10,7 @@
     >
       edit title
     </button>
-    <input type="text" :v-modal="todoTitle" @input="updateTitle"/>
-    <button @click="cons">hahahahahaha</button>
+    <input type="text" :value="todoTitle" @input="updateTitle"/>
     <hr>
     <ul>
       <TaskItem />
@@ -57,8 +56,8 @@ export default {
         this.todoTitleEdit = true
       },
 
-      cons() {
-        console.log(this.todo.title);
+      updateTitle(e) {
+        this.$store.commit("updateTitle", e.target.value)
       }
   },
 

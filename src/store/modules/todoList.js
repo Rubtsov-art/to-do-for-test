@@ -7,10 +7,6 @@ export default {
         removeTodos(state, id) {
             state.todos = state.todos.filter(t => t.id !== id)
         },
-        updateTodoTitle(state, id, title) {
-            const [targetTodo] = state.todos.filter(t => t.id === id)
-            targetTodo.title = title
-        },
         updateTitle (state, value) {
             // const target = state.todos.findIndex(todo => todo.id === payload.id)
             state.todos[0].title = value
