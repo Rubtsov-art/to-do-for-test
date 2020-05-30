@@ -8,7 +8,12 @@
             <button @click="deleteTodo">удалить ToDo</button>
         </div>
         <ul>
-            <Task />
+            <Task
+                v-for="task of todo.tasks"
+                v-bind:key="task.id"
+                v-bind:task="task"
+                v-bind:todo="todo"
+            />
         </ul>
     </li>
 </template>

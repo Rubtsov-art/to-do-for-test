@@ -12,7 +12,7 @@
     </button>
     <input type="text" 
       :value="todoTitle" 
-      @input="updateTitle"
+      @input="updateTodoTitle"
       v-bind:class="{invesible: !todoTitleEdit}"
       />
     <button 
@@ -22,13 +22,14 @@
       Переименовать
     </button>
     <hr>
-    <p>{{this.todo.tasks}}</p>
     <ul>
-      <TaskItem 
-        v-for="task of globs"
-        v-bind:task="task"
+      <TaskItem
+        v-for="task of todo.tasks"
         v-bind:key="task.id"
-      />
+        v-bind:task="task"
+        v-bind:todo="todo"
+      >
+      </TaskItem>
     </ul>
   </section>
 </template>
@@ -42,8 +43,7 @@ export default {
 
   data() {
     return {
-      todoTitleEdit: false,
-      globs: [{id:1},{id:2},{id:3}]
+      todoTitleEdit: false
     }
   },
 
@@ -54,7 +54,7 @@ export default {
         return this.$store.getters.getTargetTodo(this.todo.id).title
       },
       set (value) {
-          this.$store.commit("updateTitle", value)
+          this.$store.commit("updateTodoTitle", value)
       }
     }
   },
@@ -66,7 +66,7 @@ export default {
   },
 
   methods: {
-      ...mapMutations(["updateTitle"]),
+      ...mapMutations(["updateTodoTitle"]),
 
       todoTitleOnEdit() {
         this.todoTitleEdit = true
@@ -76,8 +76,8 @@ export default {
          this.todoTitleEdit = false
       },
 
-      updateTitle(e) {
-        this.$store.commit("updateTitle", {value: e.target.value, id: this.todo.id})
+      updateTodoTitle(e) {
+        this.$store.commit("updateTodoTitle", {value: e.target.value, id: this.todo.id})
       }
   },
 
