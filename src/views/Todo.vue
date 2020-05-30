@@ -1,19 +1,34 @@
 <template>
   <section>
     <router-link to="/">Home</router-link>
-    <h3 v-bind:class="{todo_title_edit: todoTitleEdit}">
+    <h3 v-bind:class="{invesible: todoTitleEdit}">
       {{todo.title}}
     </h3>
     <button 
       @click="todoTitleOnEdit" 
-      v-bind:class="{todo_title_edit: todoTitleEdit}"
+      v-bind:class="{invesible: todoTitleEdit}"
     >
-      edit title
+      Переименовать
     </button>
-    <input type="text" :value="todoTitle" @input="updateTitle"/>
+    <input type="text" 
+      :value="todoTitle" 
+      @input="updateTitle"
+      v-bind:class="{invesible: !todoTitleEdit}"
+      />
+    <button 
+       v-bind:class="{invesible: !todoTitleEdit}"
+       @click="todoTitleEditOff"
+    >
+      Переименовать
+    </button>
     <hr>
+    <p>{{this.todo.tasks}}</p>
     <ul>
-      <TaskItem />
+      <TaskItem 
+        v-for="task of globs"
+        v-bind:task="task"
+        v-bind:key="task.id"
+      />
     </ul>
   </section>
 </template>
@@ -27,7 +42,8 @@ export default {
 
   data() {
     return {
-      todoTitleEdit: false
+      todoTitleEdit: false,
+      globs: [{id:1},{id:2},{id:3}]
     }
   },
 
@@ -43,7 +59,7 @@ export default {
     }
   },
 
-  props: ['todo'],
+  props: ["todo"],
 
   components: {
     TaskItem
@@ -56,8 +72,12 @@ export default {
         this.todoTitleEdit = true
       },
 
+      todoTitleEditOff() {
+         this.todoTitleEdit = false
+      },
+
       updateTitle(e) {
-        this.$store.commit("updateTitle", e.target.value)
+        this.$store.commit("updateTitle", {value: e.target.value, id: this.todo.id})
       }
   },
 
@@ -66,7 +86,7 @@ export default {
 </script>
 
 <style scoped>
-  .todo_title_edit {
+  .invesible {
     display: none;
   }
 </style>

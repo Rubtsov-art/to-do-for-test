@@ -32,6 +32,7 @@ export default {
           id: Date.now(),
           title: "Новая заметка",
           tasks: [{
+            id: Date.now()+1,
             taskTitle: "",
             taskText: "",
             completed: false

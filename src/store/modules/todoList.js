@@ -7,9 +7,9 @@ export default {
         removeTodos(state, id) {
             state.todos = state.todos.filter(t => t.id !== id)
         },
-        updateTitle (state, value) {
-            // const target = state.todos.findIndex(todo => todo.id === payload.id)
-            state.todos[0].title = value
+        updateTitle (state, payload) {
+            const target = state.todos.findIndex(todo => todo.id === payload.id)
+            state.todos[target].title = payload.value
           }
     },
 
