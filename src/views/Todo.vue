@@ -7,7 +7,7 @@
       @closePopup="closePopup"
     >
       <p>
-        Вы действительно хотите переименовать задачу?
+        Вы действительно хотите переименовать заметку?
       </p>
       <button
         @click="todoTitleOnEdit"
@@ -80,9 +80,9 @@ export default {
       get () {
         return this.$store.getters.getTargetTodo(this.todo.id).title
       },
-      set (value) {
-          this.$store.commit("updateTodoTitle", value)
-      }
+      // set (value) {
+      //     this.$store.commit("updateTodoTitle", value)
+      // }
     }
   },
 
