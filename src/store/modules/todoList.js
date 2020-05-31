@@ -4,13 +4,22 @@ export default {
         createTodos(state, newTodo) {
             state.todos.unshift(newTodo)
         },
+        createTask(state, payload) {
+            const targetTodo = state.todos.findIndex(todo => todo.id === payload.todoId)
+            state.todos[targetTodo].tasks.unshift(payload.newTask)
+        },
         removeTodos(state, id) {
             state.todos = state.todos.filter(t => t.id !== id)
         },
         updateTodoTitle (state, payload) {
             const target = state.todos.findIndex(todo => todo.id === payload.id)
             state.todos[target].title = payload.value
-          }
+        },
+        updateTaskTitle (state, payload) {
+            const targetTodo = state.todos.findIndex(todo => todo.id === payload.todoId)
+            const targetTask = state.todos[targetTodo].tasks.find(task => task.id === payload.taskId)
+            targetTask.title = payload.value
+        }
     },
 
     state: {
@@ -24,6 +33,11 @@ export default {
 
         getTargetTodo: state => id => {
             return state.todos.find(todo => todo.id === id)
+        },
+
+        getTargetTask: state => payload => {
+            const targetTodo = state.todos.findIndex(todo => todo.id === payload.todoId)
+            return state.todos[targetTodo].tasks.find(task => task.id === payload.taskId)
         },
 
         getShortTaskText: state => payload => {

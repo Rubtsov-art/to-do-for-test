@@ -6,6 +6,9 @@
       v-if="popupViseble"
       @closePopup="closePopup"
     >
+      <p>
+        Вы действительно хотите переименовать задачу?
+      </p>
       <button
         @click="todoTitleOnEdit"
       >
@@ -14,7 +17,7 @@
       <button
         @click="closePopup"
       >
-        Cansel
+        Отмена
       </button>
     </Popup>
 
@@ -39,6 +42,11 @@
       Переименовать
     </button>
     <hr>
+    <button
+      @click="addTask"
+    >
+      Добавить задачу
+    </button>
     <ul>
       <TaskItem
         v-for="task of todo.tasks"
@@ -52,7 +60,6 @@
 </template>
 
 <script>
-// @click="todoTitleOnEdit" 
 import TaskItem from "../components/TaskItem"
 import {mapMutations} from "vuex"
 import Popup from "../components/Popup"
@@ -87,7 +94,7 @@ export default {
   },
 
   methods: {
-      ...mapMutations(["updateTodoTitle"]),
+      ...mapMutations(["updateTodoTitle", "createTask"]),
 
       showPopup() {
         this.popupViseble = true
@@ -107,7 +114,23 @@ export default {
       },
 
       updateTodoTitle(e) {
-        this.$store.commit("updateTodoTitle", {value: e.target.value, id: this.todo.id})
+        this.$store.commit("updateTodoTitle", {
+                                                value: e.target.value, 
+                                                id: this.todo.id
+                                              })
+      },
+
+      addTask() {
+        const newTask = {
+            id: Date.now()+1,
+            title: "Новая задача",
+            text: "Описание задачи",
+            completed: false
+        }
+        this.$store.commit("createTask", {
+                                          todoId: this.todo.id,
+                                          newTask
+                                         })
       }
   },
 

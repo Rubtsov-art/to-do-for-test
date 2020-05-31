@@ -32,7 +32,7 @@ export default {
     .popup {
         position: fixed;
         top: 50px;
-        width: 10rem;
+        width: 50rem;
         background-color: white;
         border: 1px solid black;
         z-index: 2;
