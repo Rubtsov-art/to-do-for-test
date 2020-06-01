@@ -19,6 +19,11 @@ export default {
             const targetTodo = state.todos.findIndex(todo => todo.id === payload.todoId)
             const targetTask = state.todos[targetTodo].tasks.find(task => task.id === payload.taskId)
             targetTask.title = payload.value
+        },
+        updateTaskText (state, payload) {
+            const targetTodo = state.todos.findIndex(todo => todo.id === payload.todoId)
+            const targetTask = state.todos[targetTodo].tasks.find(task => task.id === payload.taskId)
+            targetTask.text = payload.value
         }
     },
 

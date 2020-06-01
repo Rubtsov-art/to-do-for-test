@@ -5,7 +5,27 @@
                          :key="todo.id">
                 <h2>{{todo.title}}</h2>
             </router-link>
-            <button @click="deleteTodo">удалить ToDo</button>
+            <button @click="openPopup">удалить ToDo</button>
+
+            <Popup
+                v-if="popupIsOpen"
+                @closePopup="closePopup"
+            >
+                <p>
+                Вы действительно хотите удалить заметку?
+            </p>
+            <button
+                @click="deleteTodo"
+            >
+                OK
+            </button>
+            <button
+                @click="closePopup"
+            >
+                Отмена
+            </button>
+            </Popup>
+
         </div>
         <ul>
             <Task
@@ -20,11 +40,19 @@
 
 <script>
 import Task from "./Task"
+import Popup from "../components/Popup"
 import { mapMutations } from "vuex"
 
 export default {
+    data() {
+        return {
+            popupIsOpen: false
+        }
+    },
+
     components: {
-        Task
+        Task,
+        Popup
     },
 
     props: {
@@ -36,8 +64,17 @@ export default {
 
     methods: {
         ...mapMutations(["removeTodos"]),
+
         deleteTodo() {
             this.removeTodos(this.todo.id)
+        },
+
+        closePopup() {
+            this.popupIsOpen = false
+        },
+
+        openPopup() {
+            this.popupIsOpen = true
         }
     }
 }
