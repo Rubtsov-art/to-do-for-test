@@ -1,8 +1,17 @@
 export default {
 
     mutations: {
+        todosParsing(state) {
+            state.todos = JSON.parse(localStorage.getItem("todos"));
+        },
+        todosCopyParsing(state) {
+            state.todosCopy = JSON.parse(localStorage.getItem("todosCopy"));
+        },
         createTodos(state, newTodo) {
             state.todos.unshift(newTodo)
+            const parsed = JSON.stringify(state.todos);
+            localStorage.setItem("todos", parsed);
+            localStorage.setItem("todosCopy", parsed);
         },
         createTask(state, payload) {
             const targetTodo = state.todos.findIndex(todo => todo.id === payload.todoId)
@@ -10,6 +19,8 @@ export default {
         },
         removeTodos(state, id) {
             state.todos = state.todos.filter(t => t.id !== id)
+            const parsed = JSON.stringify(state.todos);
+            localStorage.setItem('todos', parsed);
         },
         updateTodoTitle (state, payload) {
             const target = state.todos.findIndex(todo => todo.id === payload.id)
@@ -28,12 +39,17 @@ export default {
     },
 
     state: {
-        todos: []
+        todos: [],
+        todosCopy: []
     },
 
     getters: {
         allTodos(state) {
             return state.todos
+        },
+
+        getTargetTodoCopy: state => id => {
+            return state.todosCopy.find(todo => todo.id === id)
         },
 
         getTargetTodo: state => id => {

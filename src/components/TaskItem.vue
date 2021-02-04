@@ -1,7 +1,7 @@
 <template>
     <li>
-        <h4>{{localTask.id}}</h4>
-        
+        <h4>{{localTodo.id}}</h4>
+        <h4>{{todo.id}}</h4>
     </li>
 </template>
 

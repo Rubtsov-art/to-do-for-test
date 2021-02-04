@@ -19,6 +19,11 @@ import { mapGetters, mapMutations } from "vuex"
 
 export default {
 
+    mounted() {  
+        this.todosParsing(),
+        this.todosCopyParsing()
+     },
+
     computed: mapGetters(["allTodos"]),
     
     components: {
@@ -26,7 +31,8 @@ export default {
     },
 
     methods: {
-      ...mapMutations(["createTodos"]),
+      ...mapMutations(["createTodos", "todosParsing", "todosCopyParsing"]),
+
       addTodo() {
         this.createTodos({
           id: Date.now(),

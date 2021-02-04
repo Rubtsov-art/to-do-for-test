@@ -4,7 +4,7 @@
     <h3
       v-if="(!editTitle)"
     >
-      {{localTodo.title}}
+      {{todoCopy.title}}
     </h3>
     <button
       v-if="!editTitle"
@@ -12,12 +12,12 @@
     >
       Переименовать
     </button>
-    <input
+    <!-- <input
       v-if="editTitle" 
       type="text" 
       v-model="localTodo.title"
       @input="titleWasChanged"
-    />
+    /> -->
     <button
       v-if="editTitle"
       @click="editTitleOff"
@@ -28,42 +28,49 @@
     <button @click="addTaskToLocalTodo">
       Добавить задачу
     </button>
+    <p>{{todoCopy.id}}</p>
+    <p>{{todo.id}}</p>
     <ul>
-      <TaskItem
+      <!-- <TaskItem
         v-for="task of localTodo.tasks"
         v-bind:key="task.id"
         v-bind:localTask="task"
         v-bind:todo="todo"
         v-bind:localTodo="localTodo"
       >
-      </TaskItem>
+      </TaskItem> -->
     </ul>
   </section>
 </template>
 
 <script>
-import TaskItem from "../components/TaskItem"
-import {mapMutations} from "vuex"
+//import TaskItem from "../components/TaskItem"
+import { mapMutations } from "vuex"
 
 export default {
   name: "Todo",
 
   data() {
-    const todoClone = JSON.parse(JSON.stringify(this.todo))
 
     return {
       editTitle: false,
-      localTodo: todoClone
+      //localTodo: todoCopy
     }
   },
 
   computed: {
-    getTodoTitle: {
-      get () {
-        return this.$store.getters.getTargetTodo(this.todo.id).title
-      },
+    todoCopy: {
+      get() {
+         return this.$store.getters.getTargetTodoCopy(this.todo.id)
+      }
     }
   },
+    // getTodoTitle: {
+    //   get () {
+    //     return this.$store.getters.getTargetTodo(this.id)
+    //   },
+    // },
+  
 
   props: {
     todo: {
@@ -72,9 +79,9 @@ export default {
         }
   },
 
-  components: {
-    TaskItem
-  },
+  // components: {
+  //   TaskItem
+  // },
 
   methods: {
       ...mapMutations(["createTask"]),
